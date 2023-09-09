@@ -3,7 +3,7 @@ import MemoryCard from "../components/MemoryCard";
 import { useMemory } from "../hooks/useMemory";
 
 import shuffleArray from "../utils/shuffleArray";
-type MemoryCardWithUrl = { url: string; uuid: string; isFlipped?: boolean };
+type MemoryCardWithUrl = { url: string; uuid: string; isFlipped?: boolean, success:boolean };
 
 type MemoryGameProps = MemoryCardWithUrl[];
 
@@ -41,9 +41,19 @@ const MemoryGame = () => {
   useEffect(() => {
     if (flippedCards.length === 2) {
       const [firstCard, secondCard] = flippedCards;
-      if (firstCard.url=== secondCard.url) {
+      if (firstCard.url === secondCard.url) {
+        // Actualiza la propiedad success en true para los elementos que coinciden
+        const updatedCards = cards?.map((card) =>
+          card.url === firstCard.url || card.url === secondCard.url
+            ? { ...card, success: true }
+            : card
+        );
+  
+        setCards(updatedCards || []);
+        
         setMatchedCards([...matchedCards, firstCard.url]);
         setSuccesses(successes + 1);
+  
         if (matchedCards.length + 2 === data?.cardsData.length) {
           setGameOver(true);
         }
@@ -55,6 +65,7 @@ const MemoryGame = () => {
       setFlippedCards([]);
     }
   }, [flippedCards]);
+  
 
 
   
@@ -95,6 +106,7 @@ const MemoryGame = () => {
               <MemoryCard
                 key={card.uuid}
                 uuid={card.uuid}
+                success={card.success}
                 url={card.url}
                 isFlipped={flippedCards.some((c) => c.uuid === card.uuid)}
                 onClick={() => handleCardClick(card.uuid, card.url, false)}
