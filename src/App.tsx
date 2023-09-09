@@ -1,11 +1,13 @@
-import logo from "./logo.svg";
-import "./App.css";
 import "../src/main.css"
+import Layout from "./layout/Layout"
+
 function App() {
   return (
-      <div className="App">
-          <div className="text-lg font-medium text-rose-500" > hola mundo</div>
-      </div>
+    <div className="App">
+      <Layout>
+
+      </Layout>
+    </div>
 
   );
 }
