@@ -2,7 +2,7 @@ import { FC } from "react"
 
 const Footer: FC = () => {
   return (
-    <div className="h-16 bg-col bg-gray-900 flex items-center justify-center">
+    <div className="h-16 bg-col bg-gray-900 flex items-center justify-center p-6">
       <span className="text-white">
         By Javier Ponte
         <a

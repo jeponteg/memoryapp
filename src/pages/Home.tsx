@@ -8,7 +8,7 @@ type MemoryCardWithUrl = { url: string; uuid: string; isFlipped?: boolean, succe
 type MemoryGameProps = MemoryCardWithUrl[];
 
 const MemoryGame = () => {
-  const { data, status } = useMemory(4)
+  const { data, status } = useMemory(20)
 
   const [cards, setCards] = useState<MemoryGameProps>();
 
