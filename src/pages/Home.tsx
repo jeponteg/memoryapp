@@ -4,22 +4,25 @@ import MemoryCard from "../components/MemoryCard";
 import Modal from "../components/Modal";
 
 import shuffleArray from "../utils/shuffleArray";
+import TrackingTable from "../components/TrackingTable";
 
 type MemoryCardWithUrl = { url: string; uuid: string; isFlipped: boolean, success: boolean };
 
 type MemoryGameProps = MemoryCardWithUrl[];
 
 const MemoryGame = () => {
-  const { data, status } = useMemory(20)
+  const { data, status } = useMemory(2)
 
   const [cards, setCards] = useState<MemoryGameProps>();
-
+  const [isGameStarted, setIsGameStarted] = useState(false);
   const [flippedCards, setFlippedCards] = useState<MemoryGameProps>([]);
   const [matchedCards, setMatchedCards] = useState<string[]>([]);
   const [errors, setErrors] = useState(0);
   const [successes, setSuccesses] = useState(0);
   const [userName, setUserName] = useState("");
+
   const [gameOver, setGameOver] = useState(false);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   const handleDataChange = useCallback(() => {
     setCards(() =>
@@ -27,12 +30,15 @@ const MemoryGame = () => {
     );
   }, [status == "success"]);
 
+  const handleStartGameClick = () => {
+
+    setIsGameStarted(true);
+  };
+
   useEffect(() => {
     handleDataChange();
   }, [handleDataChange]);
 
-
-  // refactorizando function
   const handleCardClick = (uuid: string, url: string, isFlipped: boolean) => {
     if (isFlipped) {
       return;
@@ -53,7 +59,6 @@ const MemoryGame = () => {
     if (flippedCards.length === 2) {
       const [firstCard, secondCard] = flippedCards;
       if (firstCard.url === secondCard.url) {
-        // Actualiza la propiedad success en true para los elementos que coinciden
         const updatedCards = cards?.map((card) =>
           card.url === firstCard.url || card.url === secondCard.url
             ? { ...card, success: true }
@@ -65,23 +70,26 @@ const MemoryGame = () => {
         setMatchedCards([...matchedCards, firstCard.uuid, secondCard.uuid]);
 
         setSuccesses(successes + 1);
-        console.log("matchedCards.length", matchedCards.length)
-        console.log("data?.cardsData.length", cards?.length)
+
         if (matchedCards.length + 2 === cards?.length) {
           setGameOver(true);
         }
       } else {
         setTimeout(() => {
           setErrors(errors + 1);
+
+          const unmatchedCards = cards?.map((card) =>
+            card.uuid === firstCard.uuid || card.uuid === secondCard.uuid
+              ? { ...card, isFlipped: false }
+              : card
+          );
+
+          setCards(unmatchedCards || []);
         }, 1000);
       }
       setFlippedCards([]);
     }
   }, [flippedCards]);
-
-
-
-
 
   const handleRestart = () => {
     if (data) {
@@ -94,26 +102,46 @@ const MemoryGame = () => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(e.target.value);
+    setIsButtonEnabled(!!e.target.value);
+  };
+
   return (
     <div className="memory-game">
-      <h1>Memory Game</h1>
-      {!userName && (
-        <div>
-          <input
-            type="text"
-            placeholder="Enter your name"
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          <button onClick={() => setUserName(userName)}>Start Game</button>
-        </div>
-      )}
-      {userName && (
-        <>
-          <div className="scoreboard">
-            <span>Name: {userName}</span>
-            <span>Errors: {errors}</span>
-            <span>Successes: {successes}</span>
+      {!isGameStarted && (
+        <div className="flex flex-col items-center justify-center h-screen">
+          <div className="bg-white rounded-lg p-8 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-4">Memory Game</h2>
+            <div className="flex flex-col items-center space-y-4">
+              <input
+                type="text"
+                placeholder="Enter your name"
+                className="px-4 py-2 border rounded-lg"
+                onChange={handleInputChange}
+              />
+              <button
+                onClick={handleStartGameClick}
+                className={`px-4 py-2 rounded-lg ${isButtonEnabled ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'bg-gray-400 cursor-not-allowed'}`}
+                disabled={!isButtonEnabled}
+              >
+                Start Game
+              </button>
+            </div>
           </div>
+        </div>
+
+      )}
+      {isGameStarted && (
+        <>
+          <div className="flex justify-center items-center mt-6">
+            <TrackingTable
+              userName={userName}
+              errors={errors}
+              successes={successes}
+            />
+          </div>
+
           <div className="memory-board flex flex-wrap justify-center items-center">
             {cards?.map((card) => (
               <MemoryCard
@@ -127,7 +155,7 @@ const MemoryGame = () => {
             ))}
           </div>
           {gameOver && (
-            <Modal onClick={handleRestart} />
+            <Modal onClick={handleRestart} username={userName} />
           )}
         </>
       )}
