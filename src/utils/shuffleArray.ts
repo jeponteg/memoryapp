@@ -8,7 +8,8 @@ function shuffleArrayWithIndex<T>(array: T[]): T[] {
   return shuffledArray.map((element, index) => ({
     ...element,
     uuid: `${element.uuid}-${index}`,
-    success: false, // Agregar la propiedad success con valor false
+    success: false,
+    isFlipped: false,
   }));
 }
 

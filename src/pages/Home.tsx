@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import MemoryCard from "../components/MemoryCard";
 import { useMemory } from "../hooks/useMemory";
+import MemoryCard from "../components/MemoryCard";
+import Modal from "../components/Modal";
 
 import shuffleArray from "../utils/shuffleArray";
-type MemoryCardWithUrl = { url: string; uuid: string; isFlipped?: boolean, success:boolean };
+
+type MemoryCardWithUrl = { url: string; uuid: string; isFlipped: boolean, success: boolean };
 
 type MemoryGameProps = MemoryCardWithUrl[];
 
@@ -30,11 +32,20 @@ const MemoryGame = () => {
   }, [handleDataChange]);
 
 
-
+  // refactorizando function
   const handleCardClick = (uuid: string, url: string, isFlipped: boolean) => {
     if (isFlipped) {
       return;
     }
+
+    const updatedCards = cards?.map((card) =>
+      card.uuid === uuid
+        ? { ...card, isFlipped: true }
+        : card
+    );
+
+    setCards(updatedCards || []);
+
     setFlippedCards([...flippedCards, { uuid, url, isFlipped }]);
   };
 
@@ -48,13 +59,15 @@ const MemoryGame = () => {
             ? { ...card, success: true }
             : card
         );
-  
+
         setCards(updatedCards || []);
-        
-        setMatchedCards([...matchedCards, firstCard.url]);
+
+        setMatchedCards([...matchedCards, firstCard.uuid, secondCard.uuid]);
+
         setSuccesses(successes + 1);
-  
-        if (matchedCards.length + 2 === data?.cardsData.length) {
+        console.log("matchedCards.length", matchedCards.length)
+        console.log("data?.cardsData.length", cards?.length)
+        if (matchedCards.length + 2 === cards?.length) {
           setGameOver(true);
         }
       } else {
@@ -65,10 +78,10 @@ const MemoryGame = () => {
       setFlippedCards([]);
     }
   }, [flippedCards]);
-  
 
 
-  
+
+
 
   const handleRestart = () => {
     if (data) {
@@ -109,15 +122,12 @@ const MemoryGame = () => {
                 success={card.success}
                 url={card.url}
                 isFlipped={flippedCards.some((c) => c.uuid === card.uuid)}
-                onClick={() => handleCardClick(card.uuid, card.url, false)}
+                onClick={() => handleCardClick(card.uuid, card.url, card.isFlipped)}
               />
             ))}
           </div>
           {gameOver && (
-            <div className="game-over">
-              <p>Congratulations, {userName}!</p>
-              <button onClick={handleRestart}>Play Again</button>
-            </div>
+            <Modal onClick={handleRestart} />
           )}
         </>
       )}
