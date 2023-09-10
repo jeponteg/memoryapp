@@ -1,15 +1,16 @@
-import React, { FC } from 'react'
+import React, { FC } from "react"
 
 interface ModalProps {
     onClick: () => void;
+    username: string;
 }
 
-const Modal: FC<ModalProps> = ({ onClick }) => {
+const Modal: FC<ModalProps> = ({ onClick, username }) => {
     return (
         <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-8 rounded-lg text-center">
                 <h2 className="text-2xl font-semibold mb-4">
-                    ¡Felicidades! Has completado el juego con éxito
+                    {`¡Felicidades ${username}! Has completado el juego con éxito`} 
                 </h2>
                 <button
                     onClick={onClick}

@@ -6,40 +6,23 @@ interface MemoryCardProps {
   url: string;
   success: boolean;
   isFlipped: boolean;
-  isCorrect: boolean; // Nueva prop para indicar si la carta es correcta
   onClick: () => void;
 }
 
-const MemoryCard: React.FC<MemoryCardProps> = ({ uuid, url, isFlipped, isCorrect, onClick, success }) => {
+const MemoryCard: React.FC<MemoryCardProps> = ({ uuid, url, isFlipped, onClick, success }) => {
 
   return (
-    <div
-      className={`memory-card ${isFlipped ? "flipped" : ""} ${isCorrect ? "correct" : ""}`}
-      onClick={() => !isFlipped && onClick()}
-    >
+    <div className={"memory-card"} onClick={() => !isFlipped && onClick()}>
       <div className="back border rounded-lg min-h-52 w-200 bg-gray-200 m-5 hover:bg-gray-300 cursor-pointer">
-        {success || isFlipped ? 
-         <div>
+        <div>
           <img 
-            src={url} 
+            className="border rounded-lg h-52" 
+            src={success || isFlipped ? url : AnonymousCard} 
             alt="Card" 
             width={200} 
-            className="border rounded-lg h-52" 
           />
           {uuid}
-          </div>
-          : 
-          <div>
-          <img 
-            src={AnonymousCard} 
-            alt="Card" 
-            width={200} 
-            className="border rounded-lg h-52" 
-          />
-          {uuid}
-          </div>
-        }
-
+        </div>
       </div>
     </div>
   );
