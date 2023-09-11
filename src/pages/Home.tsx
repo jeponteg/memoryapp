@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useMemory } from "../hooks/useMemory";
 import MemoryCard from "../components/MemoryCard";
 import Modal from "../components/Modal";
-
 import shuffleArray from "../utils/shuffleArray";
 import TrackingTable from "../components/TrackingTable";
 
@@ -11,29 +10,34 @@ type MemoryCardWithUrl = { url: string; uuid: string; isFlipped: boolean, succes
 type MemoryGameProps = MemoryCardWithUrl[];
 
 const MemoryGame = () => {
-  const { data, status } = useMemory(2)
-
-  const [cards, setCards] = useState<MemoryGameProps>();
+  const [cards, setCards] = useState<MemoryGameProps>([]);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [flippedCards, setFlippedCards] = useState<MemoryGameProps>([]);
   const [matchedCards, setMatchedCards] = useState<string[]>([]);
   const [errors, setErrors] = useState(0);
   const [successes, setSuccesses] = useState(0);
   const [userName, setUserName] = useState("");
-
   const [gameOver, setGameOver] = useState(false);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
+  const { data, status } = useMemory(10)
+
+  const handleStartGameClick = () => setIsGameStarted(true);
+
   const handleDataChange = useCallback(() => {
-    setCards(() =>
-      data && shuffleArray([...data.cardsData, ...data.cardsData])
-    );
+    if (data) {
+      const shuffledData: MemoryGameProps = shuffleArray([
+        ...data.cardsData,
+        ...data.cardsData
+      ]).map((item) => ({
+        ...item,
+        isFlipped: false,
+        success: false,
+      }));
+  
+      setCards(shuffledData);
+    }
   }, [status == "success"]);
-
-  const handleStartGameClick = () => {
-
-    setIsGameStarted(true);
-  };
 
   useEffect(() => {
     handleDataChange();
@@ -52,7 +56,7 @@ const MemoryGame = () => {
 
     setCards(updatedCards || []);
 
-    setFlippedCards([...flippedCards, { uuid, url, isFlipped }]);
+    setFlippedCards([...flippedCards, { uuid, url, isFlipped, success: false }]);
   };
 
   useEffect(() => {
@@ -66,7 +70,6 @@ const MemoryGame = () => {
         );
 
         setCards(updatedCards || []);
-
         setMatchedCards([...matchedCards, firstCard.uuid, secondCard.uuid]);
 
         setSuccesses(successes + 1);
@@ -93,7 +96,16 @@ const MemoryGame = () => {
 
   const handleRestart = () => {
     if (data) {
-      setCards(shuffleArray([...data.cardsData, ...data.cardsData]));
+      const shuffledData: MemoryGameProps = shuffleArray([
+        ...data.cardsData,
+        ...data.cardsData
+      ]).map((item) => ({
+        ...item,
+        isFlipped: false,
+        success: false,
+      }));
+  
+      setCards(shuffledData);
       setFlippedCards([]);
       setMatchedCards([]);
       setErrors(0);
@@ -122,7 +134,7 @@ const MemoryGame = () => {
               />
               <button
                 onClick={handleStartGameClick}
-                className={`px-4 py-2 rounded-lg ${isButtonEnabled ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'bg-gray-400 cursor-not-allowed'}`}
+                className={`px-4 py-2 rounded-lg ${isButtonEnabled ? "bg-blue-500 hover:bg-blue-600 text-white" : "bg-gray-400 cursor-not-allowed"}`}
                 disabled={!isButtonEnabled}
               >
                 Start Game
