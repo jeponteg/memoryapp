@@ -10,7 +10,7 @@ const Modal: FC<ModalProps> = ({ onClick, username }) => {
         <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-8 rounded-lg text-center">
                 <h2 className="text-2xl font-semibold mb-4">
-                    {`¡Felicidades ${username}! Has completado el juego con éxito`} 
+                    {`¡Felicidades ${username}! Has completado el juego con éxito`}
                 </h2>
                 <button
                     onClick={onClick}
