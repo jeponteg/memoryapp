@@ -123,7 +123,6 @@ const MemoryGame = () => {
         }, 100);
       }
       setTimeout(() => {
-
         setFlippedCards([]);
         setDisable(false)
       }, 1000)
@@ -140,7 +139,7 @@ const MemoryGame = () => {
     }
   }, []);
 
-  if (isLoading || status == "loading") {return <Skeleton />}
+  if (isLoading) {return <Skeleton />}
   
   return (
     <div className="memory-game">
