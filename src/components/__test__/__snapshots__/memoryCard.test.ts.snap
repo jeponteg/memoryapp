@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MemoryCard should render a flipped card correctly 1`] = `
+<div
+  className="memory-card"
+  onClick={[Function]}
+>
+  <div
+    className="back border rounded-lg min-h-52 w-200 bg-gray-200 m-5 hover:bg-gray-300 cursor-pointer"
+  >
+    <img
+      alt="Card"
+      className="border rounded-lg h-52"
+      src="image-url.jpg"
+      width={200}
+    />
+  </div>
+</div>
+`;
+
+exports[`MemoryCard should render an unflipped card correctly 1`] = `
+<div
+  className="memory-card"
+  onClick={[Function]}
+>
+  <div
+    className="back border rounded-lg min-h-52 w-200 bg-gray-200 m-5 hover:bg-gray-300 cursor-pointer"
+  >
+    <img
+      alt="Card"
+      className="border rounded-lg h-52"
+      src="image-url.jpg"
+      width={200}
+    />
+  </div>
+</div>
+`;

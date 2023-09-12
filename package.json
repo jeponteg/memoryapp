@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start lint.fix",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject",
     "format": "prettier --ignore-path .gitignore node_modules --write .",
     "lint": "eslint . --ext .{js,ts,tsx}",
@@ -47,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react-hooks": "8.0.1",
     "autoprefixer": "10.4.15",
     "eslint": "8.49.0",
     "postcss": "8.4.29",
