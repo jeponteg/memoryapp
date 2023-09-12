@@ -19,6 +19,7 @@ const MemoryGame = () => {
   const [userName, setUserName] = useState("");
   const [gameOver, setGameOver] = useState(false);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+  const [disable, setDisable] = useState(false)
 
   const { data, status } = useMemory(10)
 
@@ -34,7 +35,7 @@ const MemoryGame = () => {
         isFlipped: false,
         success: false,
       }));
-  
+
       setCards(shuffledData);
     }
   }, [status == "success"]);
@@ -44,7 +45,7 @@ const MemoryGame = () => {
   }, [handleDataChange]);
 
   const handleCardClick = (uuid: string, url: string, isFlipped: boolean) => {
-    if (isFlipped) {
+    if (isFlipped || disable) {
       return;
     }
 
@@ -61,6 +62,7 @@ const MemoryGame = () => {
 
   useEffect(() => {
     if (flippedCards.length === 2) {
+      setDisable(true)
       const [firstCard, secondCard] = flippedCards;
       if (firstCard.url === secondCard.url) {
         const updatedCards = cards?.map((card) =>
@@ -90,7 +92,12 @@ const MemoryGame = () => {
           setCards(unmatchedCards || []);
         }, 100);
       }
-      setFlippedCards([]);
+      setTimeout(() => {
+
+        setFlippedCards([]);
+        setDisable(false)
+      }, 1000)
+
     }
   }, [flippedCards]);
 
@@ -104,7 +111,7 @@ const MemoryGame = () => {
         isFlipped: false,
         success: false,
       }));
-  
+
       setCards(shuffledData);
       setFlippedCards([]);
       setMatchedCards([]);
