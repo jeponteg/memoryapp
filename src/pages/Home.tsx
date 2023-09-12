@@ -137,9 +137,10 @@ const MemoryGame = () => {
       setIsGameStarted(true);
       setIsLoading(false)
     }
+    setIsLoading(false)
   }, []);
 
-  if (isLoading) {return <Skeleton />}
+  if (isLoading || status == "loading") {return <Skeleton />}
   
   return (
     <div className="memory-game">
