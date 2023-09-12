@@ -4,6 +4,7 @@ import MemoryCard from "../components/MemoryCard";
 import Modal from "../components/Modal";
 import shuffleArray from "../utils/shuffleArray";
 import TrackingTable from "../components/TrackingTable";
+import Skeleton from "../components/Skeleton";
 
 type MemoryCardWithUrl = { url: string; uuid: string; isFlipped: boolean, success: boolean };
 
@@ -20,10 +21,39 @@ const MemoryGame = () => {
   const [gameOver, setGameOver] = useState(false);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [disable, setDisable] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
-  const { data, status } = useMemory(10)
+  const { data, status } = useMemory(20)
 
-  const handleStartGameClick = () => setIsGameStarted(true);
+  const handleStartGameClick = () => {
+    setIsGameStarted(true);
+    localStorage.setItem("username", userName);
+  };
+
+  const handleRestart = () => {
+    if (data) {
+      const shuffledData: MemoryGameProps = shuffleArray([
+        ...data.cardsData,
+        ...data.cardsData
+      ]).map((item) => ({
+        ...item,
+        isFlipped: false,
+        success: false,
+      }));
+
+      setCards(shuffledData);
+      setFlippedCards([]);
+      setMatchedCards([]);
+      setErrors(0);
+      setSuccesses(0);
+      setGameOver(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(e.target.value);
+    setIsButtonEnabled(!!e.target.value);
+  };
 
   const handleDataChange = useCallback(() => {
     if (data) {
@@ -101,31 +131,17 @@ const MemoryGame = () => {
     }
   }, [flippedCards]);
 
-  const handleRestart = () => {
-    if (data) {
-      const shuffledData: MemoryGameProps = shuffleArray([
-        ...data.cardsData,
-        ...data.cardsData
-      ]).map((item) => ({
-        ...item,
-        isFlipped: false,
-        success: false,
-      }));
-
-      setCards(shuffledData);
-      setFlippedCards([]);
-      setMatchedCards([]);
-      setErrors(0);
-      setSuccesses(0);
-      setGameOver(false);
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUserName(storedUsername)
+      setIsGameStarted(true);
+      setIsLoading(false)
     }
-  };
+  }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
-    setIsButtonEnabled(!!e.target.value);
-  };
-
+  if (isLoading || status == "loading") {return <Skeleton />}
+  
   return (
     <div className="memory-game">
       {!isGameStarted && (
