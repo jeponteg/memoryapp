@@ -1,46 +1,34 @@
-# Getting Started with Create React App
+# Memory App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto fue realizado como parte del desafío técnico de Frontend Developer para la empresa Modyo.
 
-## Available Scripts
+## Descripción
 
-In the project directory, you can run:
+Memory App es un juego de memoria en el que los jugadores deben recordar la ubicación de las cartas volteadas y emparejarlas. ¡Pon a prueba tu memoria y habilidades de concentración!
 
-### `npm start`
+## Enlace de Despliegue
+Este proyecto se ha desplegado de forma sencilla en Vercel utilizando la configuración predefinida de React.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+El proyecto se encuentra desplegado en el siguiente enlace: [Memory App](https://memoryapp-livid.vercel.app/)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Instrucciones del Juego
 
-### `npm test`
+1. Al ingresar al juego, se le pedirá al jugador que ingrese su nombre para personalizar la experiencia.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Una serie de cartas estarán volteadas boca abajo. El objetivo del juego es encontrar cartas que sean iguales emparejándolas.
 
-### `npm run build`
+3. Para seleccionar una carta, haga clic o toque en ella. La carta se volteará para revelar su imagen.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Luego, seleccione otra carta. Si ambas cartas seleccionadas son iguales, permanecerán boca arriba y se considerarán emparejadas.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+5. Si las dos cartas seleccionadas son diferentes, se voltearán nuevamente boca abajo. No podrá seleccionar otras cartas hasta que estas se volteen.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+6. El juego continúa hasta que todas las cartas estén emparejadas y volteadas boca arriba.
 
-### `npm run eject`
+¡Que empiece el juego y diviértete poniendo a prueba tu memoria!
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+https://i.ibb.co/HY5RLyR/Captura-de-pantalla-2023-09-12-a-la-s-14-02-43.png
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+https://i.ibb.co/RB7NZSR/Captura-de-pantalla-2023-09-12-a-la-s-14-02-55.png
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Captura 1](https://i.ibb.co/RB7NZSR/Captura-de-pantalla-2023-09-12-a-la-s-14-02-43.png) ![Captura 2](https://i.ibb.co/HY5RLyR/Captura-de-pantalla-2023-09-12-a-la-s-14-02-43.png)
