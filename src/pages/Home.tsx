@@ -178,10 +178,10 @@ const MemoryGame = () => {
           </div>
 
           <div className="memory-board flex flex-wrap justify-center items-center">
-            {cards?.map((card) => (
+            {cards?.map((card, index) => (
               <MemoryCard
                 key={card.uuid}
-                uuid={card.uuid}
+                index={index}
                 success={card.success}
                 url={card.url}
                 isFlipped={flippedCards.some((c) => c.uuid === card.uuid)}

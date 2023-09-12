@@ -2,14 +2,14 @@ import React from "react";
 import AnonymousCard from "../assets/img/anonymous-card.png";
 
 interface MemoryCardProps {
-  uuid: string;
   url: string;
   success: boolean;
   isFlipped: boolean;
+  index: number;
   onClick: () => void;
 }
 
-const MemoryCard: React.FC<MemoryCardProps> = ({ uuid, url, isFlipped, onClick, success }) => {
+const MemoryCard: React.FC<MemoryCardProps> = ({ url, isFlipped, onClick, success, index }) => {
 
   return (
     <div className={"memory-card "} onClick={() => !isFlipped && onClick()}>
@@ -20,6 +20,9 @@ const MemoryCard: React.FC<MemoryCardProps> = ({ uuid, url, isFlipped, onClick, 
           alt="Card"
           width={200}
         />
+        <div className="flex justify-center items-center text-cyan-50" >
+          {index}
+        </div>
       </div>
     </div>
   );
