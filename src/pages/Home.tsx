@@ -88,7 +88,7 @@ const MemoryGame = () => {
           );
 
           setCards(unmatchedCards || []);
-        }, 1000);
+        }, 100);
       }
       setFlippedCards([]);
     }
